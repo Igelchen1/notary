@@ -607,6 +607,10 @@ func (k *keyCommander) getKeyStores(
 			// the yubikey store
 			ks = []trustmanager.KeyStore{yubiStore, fileKeyStore}
 		}
+		lunaStore, err := getLunaKeyStore(retriever)
+		if err == nil && lunaStore != nil {
+			ks = append([]trustmanager.KeyStore{lunaStore}, ks...)
+		}
 	}
 
 	return ks, nil

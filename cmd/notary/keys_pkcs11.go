@@ -7,10 +7,15 @@ import (
 	store "github.com/theupdateframework/notary/storage"
 	"github.com/theupdateframework/notary/trustmanager"
 	"github.com/theupdateframework/notary/trustmanager/yubikey"
+	"github.com/theupdateframework/notary/trustmanager/luna"
 )
 
 func getYubiStore(fileKeyStore trustmanager.KeyStore, ret notary.PassRetriever) (*yubikey.YubiStore, error) {
 	return yubikey.NewYubiStore(fileKeyStore, ret)
+}
+
+func getLunaKeyStore(ret notary.PassRetriever) (trustmanager.KeyStore, error) {
+	return luna.NewLunaKeyStore(ret)
 }
 
 func getImporters(baseDir string, ret notary.PassRetriever) ([]trustmanager.Importer, error) {

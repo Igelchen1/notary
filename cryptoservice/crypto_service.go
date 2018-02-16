@@ -44,10 +44,15 @@ func (cs *CryptoService) Create(role data.RoleName, gun data.GUN, algorithm stri
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate %s key: %v", algorithm, err)
 	}
-	logrus.Debugf("generated new %s key for role: %s and keyID: %s", algorithm, role.String(), privKey.ID())
+	err = cs.AddKey(role, gun, privKey)
 	pubKey := data.PublicKeyFromPrivate(privKey)
+	if err != nil {
+		logrus.Debugf("Failed to add %s key for role: %s", algorithm, role.String())
+		return pubKey, err
+	}
+	logrus.Debugf("generated new %s key for role: %s and keyID: %s", algorithm, role.String(), privKey.ID())
 
-	return pubKey, cs.AddKey(role, gun, privKey)
+	return pubKey, err
 }
 
 // GetPrivateKey returns a private key and role if present by ID.

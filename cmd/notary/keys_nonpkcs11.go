@@ -14,6 +14,10 @@ func getYubiStore(fileKeyStore trustmanager.KeyStore, ret notary.PassRetriever) 
 	return nil, errors.New("Not built with hardware support")
 }
 
+func getLunaKeyStore(ret notary.PassRetriever) (trustmanager.KeyStore, error) {
+	return nil, errors.New("Not built with hardware support")
+}
+
 func getImporters(baseDir string, _ notary.PassRetriever) ([]trustmanager.Importer, error) {
 	fileStore, err := store.NewPrivateKeyFileStorage(baseDir, notary.KeyExtension)
 	if err != nil {

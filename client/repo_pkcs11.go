@@ -8,6 +8,7 @@ import (
 	"github.com/theupdateframework/notary"
 	"github.com/theupdateframework/notary/trustmanager"
 	"github.com/theupdateframework/notary/trustmanager/yubikey"
+	"github.com/theupdateframework/notary/trustmanager/luna"
 )
 
 func getKeyStores(baseDir string, retriever notary.PassRetriever) ([]trustmanager.KeyStore, error) {
@@ -20,6 +21,10 @@ func getKeyStores(baseDir string, retriever notary.PassRetriever) ([]trustmanage
 	yubiKeyStore, _ := yubikey.NewYubiStore(fileKeyStore, retriever)
 	if yubiKeyStore != nil {
 		keyStores = []trustmanager.KeyStore{yubiKeyStore, fileKeyStore}
+	}
+	lunaKeyStore, _ := luna.NewLunaKeyStore(retriever)
+	if lunaKeyStore != nil {
+		keyStores = append([]trustmanager.KeyStore{lunaKeyStore}, keyStores...)
 	}
 	return keyStores, nil
 }

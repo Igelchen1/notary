@@ -229,6 +229,10 @@ func (k *TUFKey) ID() string {
 	return k.id
 }
 
+func (k *TUFKey) ResetID() {
+	k.id = ""
+}
+
 // Public returns the public bytes
 func (k TUFKey) Public() []byte {
 	return k.Value.Public
